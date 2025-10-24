@@ -31,38 +31,62 @@
 // });
 
 
-let catalogue = document.getElementById("catalague");
-let code = document.getElementById("code");
-let titre = document.getElementById("titre");
-let auteur = document.getElementById("auteur");
-let annee = document.getElementById("annne");
-let prix = document.getElementById("pix");
-let disponible = document.getElementById("disponible");
-
+let catalogue = document.getElementById("catalogue")
 
 let livres = [];
 let btnAjoute = document.getElementById("ajoute-livre")
 
 
 function affichier() {
-    catalogue.innerHTML = ''
+    catalogue.innerHTML = ""
 
-    livres.forEach(livre , index  => {
+     livres.forEach((livre, index) => {
+    let div = document.createElement("div");
+    div.className = "carte";
 
-        let div = document.createElement("div");
-        div.className = "carte"
+    div.innerHTML = `
+      <h3>${livre.titre}</h3>
+      <p>Code : ${livre.code}</p>
+      <p>Auteur : ${livre.auteur}</p>
+      <p>Année : ${livre.annee}</p>
+      <p>Prix : ${livre.prix} DH</p>
+      <p>Disponible : ${livre.disponible ? "Oui" : "Non"}</p>
+      <button class="supprime">Supprimer</button>
+    `;
 
-
-        div.innerHTML= `
-    <h3>${livre.titre}</h3> 
-    <p>Code : ${livre.code}</p>
-    <p>Auteur : ${livre.auteur}</p>
-    <p>Année : ${livre.annee}</p>
-    <p>Prix : ${livre.prix} DH</p>
-    <p>Disponible : ${livre.disponible ? "Oui" : "Non"}</p>
-    <button class="supprime">Supprimer</button>
-        
-        `
+    div.querySelector(".supprime").addEventListener("click", function () {
+      livres.splice(index, 1);
+      affichier(); 
     });
+
+    catalogue.appendChild(div);
+  });    
     
 }
+    
+    btnAjoute.addEventListener("click", function (){
+
+let code = Number(document.getElementById("code").value);
+let titre = document.getElementById("titre").value;
+let auteur = document.getElementById("auteur").value;
+let annee = Number(document.getElementById("annee").value);
+let prix = Number(document.getElementById("prix").value);
+let disponible = document.getElementById("disponible").value === "true";
+
+
+let nouveuinfo = {
+    code : code,
+    titre : titre,
+    auteur : auteur,
+    annee : annee,
+    prix: prix,
+    disponible : disponible,
+
+}
+
+livres.push(nouveuinfo)
+
+affichier()
+
+})
+    
