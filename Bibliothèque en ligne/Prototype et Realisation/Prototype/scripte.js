@@ -1,46 +1,17 @@
-// const btn = document.getElementById("ajoute-livre");
-// const catalogue = document.getElementById("catalogue");
-
-// btn.addEventListener("click", () => {
-//   const div = document.createElement("div");
-//   div.className = "carte";
-  
-//   const titre = document.getElementById("titre").value;
-//   const auteur = document.getElementById("auteur").value;
-//   const annee = document.getElementById("annee").value;
-//   const prix = document.getElementById("prix").value;
-//   const dispo = document.getElementById("disponible").value;
-  
-//   div.innerHTML = `
-//     <h2>${titre}</h2>
-//     <p>Auteur: ${auteur}</p>
-//     <p>Année: ${annee}</p>
-//     <p>Prix: ${prix} DH</p>
-//     <p>Disponible: ${dispo}</p>
-//     <button>Supprimer</button>
-//   `;
-  
-//   // Delete button
-//   div.querySelector("button").addEventListener("click", () => {
-//     div.remove(); // remove only this card
-//   });
-  
-//   catalogue.appendChild(div);
-  
-
-// });
-
-
-let catalogue = document.getElementById("catalogue")
-
 let livres = [];
-let btnAjoute = document.getElementById("ajoute-livre")
 
+let btnAjouter = document.getElementById("ajoute-livre");
+let catalogue = document.getElementById("catalogue");
+let searchInput = document.getElementById("search");
 
-function affichier() {
-    catalogue.innerHTML = ""
+function afficherLivres(filtre = "") {
+  catalogue.innerHTML = "";
 
-     livres.forEach((livre, index) => {
+  let livresFiltres = livres.filter(livre =>
+    livre.titre.toLowerCase().includes(filtre.toLowerCase())
+  );
+
+  livresFiltres.forEach((livre, index) => {
     let div = document.createElement("div");
     div.className = "carte";
 
@@ -55,38 +26,31 @@ function affichier() {
     `;
 
     div.querySelector(".supprime").addEventListener("click", function () {
-      livres.splice(index, 1);
-      affichier(); 
+      livres.splice(index, 1); 
+      afficherLivres(searchInput.value);
     });
 
     catalogue.appendChild(div);
-  });    
-    
-}
-    
-    btnAjoute.addEventListener("click", function (){
-
-let code = Number(document.getElementById("code").value);
-let titre = document.getElementById("titre").value;
-let auteur = document.getElementById("auteur").value;
-let annee = Number(document.getElementById("annee").value);
-let prix = Number(document.getElementById("prix").value);
-let disponible = document.getElementById("disponible").value === "true";
-
-
-let nouveuinfo = {
-    code : code,
-    titre : titre,
-    auteur : auteur,
-    annee : annee,
-    prix: prix,
-    disponible : disponible,
-
+  });
 }
 
-livres.push(nouveuinfo)
+btnAjouter.addEventListener("click", function () {
+  let code = Number(document.getElementById("code").value);
+  let titre = document.getElementById("titre").value;
+  let auteur = document.getElementById("auteur").value;
+  let annee = Number(document.getElementById("annee").value);
+  let prix = Number(document.getElementById("prix").value);
+  let disponible = document.getElementById("disponible").value === "true";
 
-affichier()
+  let nouveauLivre = { code, titre, auteur, annee, prix, disponible };
 
-})
-    
+  livres.push(nouveauLivre);
+  afficherLivres(); 
+  document.getElementById("form-ajout").reset();
+});
+
+
+let btnSearch = document.getElementById("btnSearch")
+btnSearch.addEventListener("click", function () {
+  afficherLivres(searchInput.value);
+});
