@@ -98,4 +98,23 @@
     }
 
 
-    
+
+    .reserver{
+      background-color: rgb(51, 51, 177);
+    }
+   .form-ajout{
+    overflow: hidden;
+    height: 40px;
+    transition: 0.5s;
+  }
+  .ajoute-livre{
+    transform: translateY(-450px);
+    transition: 0.5s;
+  }
+  
+  .form-ajout:hover{
+    height: 500px;
+   }
+   .form-ajout:hover .ajoute-livre{
+    transform: translateY(0);
+   }

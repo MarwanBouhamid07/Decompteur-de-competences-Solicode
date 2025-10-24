@@ -7,14 +7,30 @@ let searchInput = document.getElementById("search");
 function afficherLivres(filtre = "") {
   catalogue.innerHTML = "";
 
+  let totalLivres = document.getElementById("total-livres");
+
+  totalLivres.innerHTML = livres.length
+
+  let livresDisponible = document.getElementById("livres-disponibles");
+
+   function totaldisponible() {
+  totalLivres.textContent = livres.length;
+
+  let disponibles = livres.filter(livre => livre.disponible).length;
+  livresDisponible.textContent = disponibles;
+}
+  totaldisponible()
+  
+  
+  
   let livresFiltres = livres.filter(livre =>
     livre.titre.toLowerCase().includes(filtre.toLowerCase())
   );
-
+  
   livresFiltres.forEach((livre, index) => {
     let div = document.createElement("div");
     div.className = "carte";
-
+    
     div.innerHTML = `
       <h3>${livre.titre}</h3>
       <p>Code : ${livre.code}</p>
@@ -22,7 +38,9 @@ function afficherLivres(filtre = "") {
       <p>Année : ${livre.annee}</p>
       <p>Prix : ${livre.prix} DH</p>
       <p>Disponible : ${livre.disponible ? "Oui" : "Non"}</p>
+      
       <button class="supprime">Supprimer</button>
+      ${livre.disponible ? "<button class='reserver' style= 'background-color:blue;' > Reserver </button>": ""}
     `;
 
     div.querySelector(".supprime").addEventListener("click", function () {
@@ -57,7 +75,21 @@ btnSearch.addEventListener("click", function () {
 
 
 let btnExpensive = document.getElementById("expensive");
+let plusCherDiv = document.querySelector(".plusCherDiv")
 
 btnExpensive.addEventListener("click" , function (){
-  afficherLivres()
+  
+  let plusCher = livres.reduce((max,livre) => livre.prix > max.prix ? livre : max)
+
+    plusCherDiv.innerHTML = `
+    <div class="carte special">
+      <h3>📚 Livre le plus cher</h3>
+      <h4>${plusCher.titre}</h4>
+      <p>Auteur : ${plusCher.auteur}</p>
+      <p>Année : ${plusCher.annee}</p>
+      <p><strong>Prix : ${plusCher.prix} DH</strong></p>
+      <p>${plusCher.disponible ? "✅ Disponible" : "❌ Réservé"}</p>
+    </div>
+  `;
+  
 })
