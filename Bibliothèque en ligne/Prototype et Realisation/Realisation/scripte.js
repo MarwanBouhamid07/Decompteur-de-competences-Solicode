@@ -5,6 +5,10 @@ let catalogue = document.getElementById("catalogue");
 let searchInput = document.getElementById("search");
 
 function afficherLivres(filtre = "") {
+
+
+
+
   catalogue.innerHTML = "";
 
   let totalLivres = document.getElementById("total-livres");
@@ -93,3 +97,22 @@ btnExpensive.addEventListener("click" , function (){
   `;
   
 })
+
+  let btnTrier = document.getElementById("trier");
+  let ordreAscendant = true;
+
+  btnTrier.addEventListener("click", function () {
+
+
+      if (ordreAscendant) {
+        livres.sort((a, b) => a.titre.localeCompare(b.titre));
+        btnTrier.textContent = "Z-A";
+      } else {
+        livres.sort((a, b) => b.titre.localeCompare(a.titre));
+        btnTrier.textContent = "A-Z";
+      }
+
+    ordreAscendant = !ordreAscendant;
+    afficherLivres();
+  });
+  afficherLivres();
