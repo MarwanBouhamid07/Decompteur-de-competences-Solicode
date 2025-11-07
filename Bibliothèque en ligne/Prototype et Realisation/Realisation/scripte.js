@@ -13,7 +13,7 @@ function afficherLivres(filtre = "") {
 
   let totalLivres = document.getElementById("total-livres");
 
-  totalLivres.innerHTML = livres.length
+
 
   let livresDisponible = document.getElementById("livres-disponibles");
 
@@ -113,6 +113,10 @@ btnExpensive.addEventListener("click" , function (){
       }
 
     ordreAscendant = !ordreAscendant;
-    afficherLivres();
+    afficherLivres(searchInput.value);
   });
   afficherLivres();
+
+searchInput.addEventListener("input",function () {
+  afficherLivres(searchInput.value)
+})
